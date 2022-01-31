@@ -43,7 +43,10 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-        new_location = self._terminal_service.read_number("\nEnter a location [1-1000]: ")
+        while True:
+            new_location = self._terminal_service.read_number("\nEnter a location [1-1000]: ")
+            if self._validate_input(new_location):
+                break
         self._seeker.move_location(new_location)
         
     def _do_updates(self):
@@ -64,3 +67,11 @@ class Director:
         self._terminal_service.write_text(hint)
         if self._hider.is_found():
             self._is_playing = False
+
+    def _validate_input(self,input):
+        """Will check if input is valid
+        Args:
+            self (Director): An instance of Director.
+            input (float): User input
+        """
+        return (input >= 1 and input <= 1000)
